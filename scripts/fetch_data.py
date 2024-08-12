@@ -2,7 +2,8 @@ import json
 import datetime
 import argparse
 
-from efl_scraper import scrape_matches_data, save_matches_data
+from efl_scraper.fetching_data import scrape_matches_data
+from efl_scraper import save_matches_data
 
 
 CONFIG_PATH = './scripts/fetch_data_config.json'
