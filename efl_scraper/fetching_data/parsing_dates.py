@@ -16,12 +16,13 @@ def _polish_locale():
 
 def _get_start_date_from_raw(start_date_raw: str) -> datetime.date:
     start_date_raw = start_date_raw.strip().lower()
-    # scenario 1: temporal adverb
+    # scenario 1: temporal adverb or live
     today: datetime.date = datetime.date.today()
     timedeltas = {
         'przedwczoraj': -2,
         'wczoraj': -1,
         'dziś': 0,
+        'live': 0,
         'jutro': 1,
     }
     if start_date_raw in timedeltas.keys():
