@@ -11,7 +11,7 @@ CONFIG_PATH = './scripts/fetch_data_config.json'
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Scrape current data from viaplay.com',
+        description='Scrape current data from viaplay.pl',
     )
     parser.add_argument(
         '--page-wait-time', '-w',
