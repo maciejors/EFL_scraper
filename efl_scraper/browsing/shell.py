@@ -16,6 +16,9 @@ class _BrowserShell(cmd.Cmd):
         super().__init__()
         self.df_fixtures = df_fixtures
 
+    def emptyline(self):
+        return False
+
     def do_exit(self, arg):
         """Closes the shell"""
         return True
