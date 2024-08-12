@@ -46,7 +46,7 @@ def load_matches_data(path: str) -> pd.DataFrame | None:
                 file_data = pd.read_csv(os.path.join(path, filename))
                 files_data.append(file_data)
 
-        full_data = pd.concat(files_data)
+        full_data = pd.concat(files_data).drop_duplicates()
         full_data['start_datetime'] = pd.to_datetime(full_data['start_datetime'])
         full_data = full_data.sort_values('start_datetime')
         return full_data
