@@ -1,42 +1,51 @@
-import re
+import cmd
 
 import pandas as pd
 
 from . import commands
 
 
-available_commands = {
-    'help': commands.print_help,
-    'list': commands.list_fixtures,
-    'competition': commands.competition_cmd,
-    'club': commands.club_cmd,
-}
+class _BrowserShell(cmd.Cmd):
+    intro = ('Welcome to the data browser! '
+             'Type help or ? to list commands. '
+             'Type exit or quit to close the shell.')
+    prompt = 'browser> '
+    file = None
 
+    def __init__(self, df_fixtures: pd.DataFrame):
+        super().__init__()
+        self.df_fixtures = df_fixtures
 
-def _parse_command(user_input: str, df_fixtures: pd.DataFrame) -> None:
-    tokens = re.split('\\s+', user_input, maxsplit=1)
-    command_name = tokens[0]
+    def do_exit(self, arg):
+        """Closes the shell"""
+        return True
 
-    if command_name not in available_commands.keys():
-        print(f'{command_name} is an unknown command. '
-              'Type "help" to view the list of available commands')
-        return
+    def do_quit(self, arg):
+        """Closes the shell"""
+        return self.do_exit(arg)
 
-    command_caller = available_commands[command_name]
-    if len(tokens) == 1:
-        command_caller(df_fixtures)
-    else:
-        argument = tokens[1]
-        command_caller(df_fixtures, argument)
+    def do_list(self, arg):
+        """List all fixtures"""
+        commands.list_fixtures(self.df_fixtures)
+
+    def do_competition(self, arg):
+        """
+        Lists all the fixtures for the specified competition.
+        If competition is not specified, lists all available
+        competitions instead
+        """
+        competition = arg if arg != '' else None
+        commands.competition_cmd(self.df_fixtures, competition)
+
+    def do_club(self, arg):
+        """
+        Lists all the fixtures for the specified club.
+        If club is not specified, lists all available
+        clubs instead
+        """
+        club = arg if arg != '' else None
+        commands.club_cmd(self.df_fixtures, club)
 
 
 def run_shell(df_fixtures: pd.DataFrame) -> None:
-    print('Welcome to the data browser! To exit, type "exit" or "quit".', end='\n\n')
-    commands.print_help(df_fixtures)
-
-    inp = input('> ').strip()
-    while inp not in {'exit', 'quit'}:
-        if len(inp) == 0:
-            continue
-        _parse_command(inp.strip(), df_fixtures)
-        inp = input('> ').strip()
+    _BrowserShell(df_fixtures).cmdloop()
