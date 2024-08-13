@@ -1,6 +1,4 @@
-requests == 2.32.3
-selenium == 4.23.1
-beautifulsoup4 == 4.12.3
-numpy == 2.0.1
-pandas == 2.2.2
-tqdm == 4.66.5
+selenium==4.23.1
+beautifulsoup4==4.12.3
+pandas==2.2.2
+tqdm==4.66.5

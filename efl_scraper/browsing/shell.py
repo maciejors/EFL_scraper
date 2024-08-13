@@ -9,7 +9,7 @@ class _BrowserShell(cmd.Cmd):
     intro = ('Welcome to the data browser! '
              'Type help or ? to list commands. '
              'Type exit or quit to close the shell.')
-    prompt = 'browser> '
+    prompt = 'efl_browser> '
     file = None
 
     def __init__(self, df_fixtures: pd.DataFrame):
