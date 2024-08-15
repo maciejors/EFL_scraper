@@ -12,14 +12,12 @@ def _get_url_for_competition(competition: str):
     return f'https://viaplay.pl/search#search={competition}'
 
 
-def _load_page_contents(competition: str, page_wait_time: float) -> str:
-    driver = webdriver.Chrome()
+def _load_page_contents(driver: webdriver.Chrome, competition: str, page_wait_time: float) -> str:
     url = _get_url_for_competition(competition)
     driver.get(url)
     # wait for page to load
     time.sleep(page_wait_time)
     page_source = driver.page_source
-    driver.quit()
     return page_source
 
 
@@ -75,11 +73,13 @@ def scrape_matches_data(competitions: str, page_wait_time: float) -> list[dict]:
         - away_team
         - start_datetime
     """
-    matches_data_all_competitions: list[dict] = []
+    driver = webdriver.Chrome()
 
+    matches_data_all_competitions: list[dict] = []
     for competition in tqdm(competitions):
-        page_source = _load_page_contents(competition, page_wait_time)
+        page_source = _load_page_contents(driver, competition, page_wait_time)
         new_matches_data = _scrape_match_data(competition, page_source)
         matches_data_all_competitions.extend(new_matches_data)
 
+    driver.quit()
     return matches_data_all_competitions

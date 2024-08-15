@@ -17,7 +17,7 @@ def main():
         '--page-wait-time', '-w',
         type=float,
         help='How many seconds to wait for the page to load',
-        default=5.0,
+        default=3.0,
     )
     parser.add_argument(
         '--output-path', '-o',
