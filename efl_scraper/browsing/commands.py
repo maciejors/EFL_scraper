@@ -18,7 +18,7 @@ def _pretty_row(row: pd.Series) -> str:
 def list_fixtures(df_fixtures: pd.DataFrame) -> None:
     dates = df_fixtures['start_datetime'].map(lambda d: d.date())
     for date in dates.unique():
-        print(date.strftime("%d/%m/%Y"))
+        print(date.strftime("%a %d %b %Y"))
         fixtures_on_date = df_fixtures[dates == date]
         for idx, row in fixtures_on_date.iterrows():
             print(_pretty_row(row))
