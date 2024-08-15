@@ -3,22 +3,6 @@ import datetime
 import pandas as pd
 
 
-def print_help(*args) -> None:
-    """
-    Lists all the available commands in the
-    interactive data browsing shell
-    """
-    print('Available commands:')
-    print('- help: displays this message')
-    print('- list: lists all the fixtures')
-    print('- competition [competition]: lists all the fixtures for the specified '
-          'competition. If competition is not specified, lists all available '
-          'competitions instead')
-    print('- club [club]: lists all the fixtures for the specified club. '
-          'If club is not specified, lists all available clubs instead')
-    print('- exit / quit: exits the shell')
-
-
 def _pretty_row(row: pd.Series) -> str:
     """
     Format the row in a pretty format.
@@ -31,7 +15,7 @@ def _pretty_row(row: pd.Series) -> str:
     return f'{start_time.strftime("%H:%M")} | {home_team} - {away_team} | {competition}'
 
 
-def list_fixtures(df_fixtures: pd.DataFrame, *args) -> None:
+def list_fixtures(df_fixtures: pd.DataFrame) -> None:
     dates = df_fixtures['start_datetime'].map(lambda d: d.date())
     for date in dates.unique():
         print(date.strftime("%d/%m/%Y"))
@@ -71,3 +55,8 @@ def club_cmd(df_fixtures: pd.DataFrame, club: str | None = None) -> None:
             print('No fixtures available for this club')
         else:
             list_fixtures(fixtures_club)
+
+
+def today_cmd(df_fixtures: pd.DataFrame) -> None:
+    """Lists today's fixtures"""
+
