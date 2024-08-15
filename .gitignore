@@ -15,3 +15,6 @@ venv/
 
 # Data saved by the program
 *.csv
+
+# pip install -e .
+efl_scraper.egg-info/
