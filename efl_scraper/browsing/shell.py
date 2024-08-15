@@ -49,6 +49,12 @@ class _BrowserShell(cmd.Cmd):
         club = arg if arg != '' else None
         commands.club_cmd(self.df_fixtures, club)
 
+    def do_today(self, arg):
+        """
+        Lists all today's fixtures
+        """
+        commands.today_cmd(self.df_fixtures)
+
 
 def run_shell(df_fixtures: pd.DataFrame) -> None:
     _BrowserShell(df_fixtures).cmdloop()

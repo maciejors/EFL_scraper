@@ -59,4 +59,9 @@ def club_cmd(df_fixtures: pd.DataFrame, club: str | None = None) -> None:
 
 def today_cmd(df_fixtures: pd.DataFrame) -> None:
     """Lists today's fixtures"""
-
+    today_date = datetime.date.today()
+    dates = df_fixtures['start_datetime'].map(lambda d: d.date())
+    today_fixtures = df_fixtures[dates == today_date]
+    if len(today_fixtures) == 0:
+        print('No fixtures today! :(')
+    list_fixtures(today_fixtures)
