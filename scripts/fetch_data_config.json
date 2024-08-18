@@ -1,3 +1,9 @@
 {
-  "competitions": ["Championship", "League One", "League Two", "Carabao Cup"]
+  "competitions": [
+    "Premier League",
+    "Championship",
+    "League One",
+    "League Two",
+    "Carabao Cup"
+  ]
 }

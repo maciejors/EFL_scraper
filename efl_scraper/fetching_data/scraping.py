@@ -5,7 +5,7 @@ import bs4
 from selenium import webdriver
 from tqdm import tqdm
 
-from .parsing_dates import get_match_data_from_raw
+from .parsing_matches import get_match_data_from_raw
 
 
 def _get_url_for_competition(competition: str):
@@ -37,6 +37,10 @@ def _scrape_match_data(competition: str, page_source: str) -> list[dict]:
             name='div',
             attrs={'class': re.compile('SportMeta-module-title.*')},
         )
+        # filter out extra programs
+        if '-' not in match_title_tag.text:
+            continue
+
         start_date_tag = match_element.find(
             name='div',
             attrs={'class': re.compile('Badge-module-badge.*')},
