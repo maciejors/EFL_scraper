@@ -26,13 +26,16 @@ def list_fixtures(df_fixtures: pd.DataFrame) -> None:
 
 
 def competition_cmd(df_fixtures: pd.DataFrame, competition: str | None = None) -> None:
+    competition_series = df_fixtures['competition']
     if competition is None:
-        available_competitions = df_fixtures['competition'].unique()
+        available_competitions = competition_series.unique()
         print('Available competitions:')
         for comp in available_competitions:
             print(f'- {comp}')
     else:
-        fixtures_competition = df_fixtures[df_fixtures['competition'] == competition]
+        fixtures_competition = df_fixtures[
+            df_fixtures['competition'].str.lower() == competition.lower()
+        ]
         if len(fixtures_competition) == 0:
             print('No fixtures available for this competition')
         else:
@@ -40,16 +43,21 @@ def competition_cmd(df_fixtures: pd.DataFrame, competition: str | None = None) -
 
 
 def club_cmd(df_fixtures: pd.DataFrame, club: str | None = None) -> None:
+    home_teams_series = df_fixtures['home_team']
+    away_teams_series = df_fixtures['away_team']
     if club is None:
-        available_home = df_fixtures['home_team'].unique()
-        available_away = df_fixtures['away_team'].unique()
+        available_home = home_teams_series.unique()
+        available_away = away_teams_series.unique()
         available_total = set(available_home) | set(available_away)
+        available_total = sorted(list(available_total))
         print('Available clubs:')
         for team in available_total:
             print(f'- {team}')
     else:
+        club_lowercase = club.lower()
         fixtures_club = df_fixtures[
-            (df_fixtures['home_team'] == club) | (df_fixtures['away_team'] == club)
+            (home_teams_series.str.lower() == club_lowercase)
+            | (away_teams_series.str.lower() == club_lowercase)
         ]
         if len(fixtures_club) == 0:
             print('No fixtures available for this club')
