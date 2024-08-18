@@ -41,7 +41,11 @@ def _get_start_date_from_raw(start_date_raw: str) -> datetime.date:
     if start_date_raw in weekday_name_to_number.keys():
         weekday_no = weekday_name_to_number[start_date_raw]
         # https://stackoverflow.com/questions/8801084/how-to-calculate-next-friday
-        days_until_weekday = (weekday_no - today.weekday() % 7)
+        days_until_weekday = (weekday_no - today.weekday()) % 7
+        # in this scenario it can't be today so if the weekday is the same
+        # it means the game is on the same day next week
+        if days_until_weekday == 0:
+            days_until_weekday = 7
         return today + datetime.timedelta(days=days_until_weekday)
 
     # scenario 3: polish date like "23 SIE"
