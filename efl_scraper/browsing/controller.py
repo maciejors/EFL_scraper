@@ -2,7 +2,7 @@ import cmd
 
 import pandas as pd
 
-from . import commands
+from . import service
 
 
 class _BrowserShell(cmd.Cmd):
@@ -29,7 +29,7 @@ class _BrowserShell(cmd.Cmd):
 
     def do_list(self, arg):
         """List all fixtures"""
-        commands.list_fixtures(self.df_fixtures)
+        service.list_fixtures(self.df_fixtures)
 
     def do_competition(self, arg):
         """
@@ -38,7 +38,7 @@ class _BrowserShell(cmd.Cmd):
         competitions instead
         """
         competition = arg if arg != '' else None
-        commands.competition_cmd(self.df_fixtures, competition)
+        service.competition_cmd(self.df_fixtures, competition)
 
     def do_club(self, arg):
         """
@@ -47,13 +47,13 @@ class _BrowserShell(cmd.Cmd):
         clubs instead
         """
         club = arg if arg != '' else None
-        commands.club_cmd(self.df_fixtures, club)
+        service.club_cmd(self.df_fixtures, club)
 
     def do_today(self, arg):
         """
         Lists all today's fixtures
         """
-        commands.today_cmd(self.df_fixtures)
+        service.today_cmd(self.df_fixtures)
 
 
 def run_shell(df_fixtures: pd.DataFrame) -> None:
