@@ -25,17 +25,17 @@ def _scrape_match_data(competition: str, page_source: str) -> list[dict]:
     soup = bs4.BeautifulSoup(page_source, 'html.parser')
 
     competition_labels = soup.find_all(
-        name='a',
+        name='span',
         string=competition,
-        attrs={'class': re.compile('SportMeta-module-secondarytitle.*')},
+        attrs={'class': re.compile('EpisodeMeta_secondaryTitle.*')},
     )
     matches_data: list[dict] = []
 
     for label in competition_labels:
-        match_element: bs4.element.Tag = label.parent.parent.parent
+        match_element: bs4.element.Tag = label.parent.parent.parent.parent
         match_title_tag = match_element.find(
             name='div',
-            attrs={'class': re.compile('SportMeta-module-title.*')},
+            attrs={'class': re.compile('SportMeta_title.*')},
         )
         # filter out extra programs
         if '-' not in match_title_tag.text:
@@ -43,11 +43,11 @@ def _scrape_match_data(competition: str, page_source: str) -> list[dict]:
 
         start_date_tag = match_element.find(
             name='div',
-            attrs={'class': re.compile('Badge-module-badge.*')},
+            attrs={'class': re.compile('Badge_badge.*')},
         )
         start_time_tag = match_element.find(
             name='div',
-            attrs={'class': re.compile('SportMeta-module-start.*')},
+            attrs={'class': re.compile('SportMeta_start.*')},
         )
         match_data = get_match_data_from_raw(
             competition,
