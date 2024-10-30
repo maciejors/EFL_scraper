@@ -55,6 +55,12 @@ class _BrowserShell(cmd.Cmd):
         """
         service.today_cmd(self.df_fixtures)
 
+    def do_tomorrow(self, arg):
+        """
+        Lists all tomorrow's fixtures
+        """
+        service.tomorrow_cmd(self.df_fixtures)
+
 
 def run_shell(df_fixtures: pd.DataFrame) -> None:
     _BrowserShell(df_fixtures).cmdloop()

@@ -65,11 +65,29 @@ def club_cmd(df_fixtures: pd.DataFrame, club: str | None = None) -> None:
             list_fixtures(fixtures_club)
 
 
+def _games_for_day(df_fixtures: pd.DataFrame, date: datetime.date) -> pd.DataFrame:
+    fixtures_dates = df_fixtures['start_datetime'].map(lambda d: d.date())
+    day_fixtures = df_fixtures[fixtures_dates == date]
+    return day_fixtures
+
+
 def today_cmd(df_fixtures: pd.DataFrame) -> None:
     """Lists today's fixtures"""
-    today_date = datetime.date.today()
-    dates = df_fixtures['start_datetime'].map(lambda d: d.date())
-    today_fixtures = df_fixtures[dates == today_date]
+    today_fixtures = _games_for_day(
+        df_fixtures,
+        datetime.date.today(),
+    )
     if len(today_fixtures) == 0:
         print('No fixtures today! :(')
     list_fixtures(today_fixtures)
+
+
+def tomorrow_cmd(df_fixtures: pd.DataFrame) -> None:
+    """Lists tomorrow's fixtures"""
+    tomorrow_fixtures = _games_for_day(
+        df_fixtures,
+        datetime.date.today() + datetime.timedelta(days=1),
+    )
+    if len(tomorrow_fixtures) == 0:
+        print('No fixtures tomorrow! :(')
+    list_fixtures(tomorrow_fixtures)
